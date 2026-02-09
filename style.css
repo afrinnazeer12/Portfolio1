@@ -441,7 +441,7 @@ textarea {
         
 .project-cs-hero {
   color: #FF8800;
-  background-image:url("dadi.jpg");
+  background-image:url("IMG_2900\ \(1\).jpg");
   background-size: cover;
   background-position: center;
   position: relative; }
@@ -797,3 +797,30 @@ textarea {
   to {
     opacity: 0;
     top: 27px; } }
+
+
+
+
+    .animate-name span {
+  opacity: 0;
+  display: inline-block;
+  color: #FF8000;
+  animation: fadeInOut 5s infinite; /* total duration of full in/out + pause */
+  animation-fill-mode: forwards;
+}
+
+/* Appear one by one: stagger delays */
+.animate-name span:nth-child(1) { animation-delay: 0s; }
+.animate-name span:nth-child(2) { animation-delay: 0.3s; }
+.animate-name span:nth-child(3) { animation-delay: 0.6s; }
+.animate-name span:nth-child(4) { animation-delay: 0.9s; }
+.animate-name span:nth-child(5) { animation-delay: 1.2s; }
+.animate-name span:nth-child(6) { animation-delay: 1.5s; }
+.animate-name span:nth-child(7) { animation-delay: 2.0s; }
+
+/* Keyframes: fade in, stay, fade out */
+@keyframes fadeInOut {
+  0%, 30% { opacity: 0; }       /* before appearing */
+  40%, 70% { opacity: 1; }      /* visible letters */
+  80%, 110% { opacity: 0; }     /* fade out */
+}
