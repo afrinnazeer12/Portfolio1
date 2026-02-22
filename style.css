@@ -824,3 +824,16 @@ textarea {
   40%, 70% { opacity: 1; }      /* visible letters */
   80%, 110% { opacity: 0; }     /* fade out */
 }
+
+
+
+.header__links {
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: all 0.8s ease;
+}
+
+.header__links.show-nav {
+  opacity: 1;
+  transform: translateY(0);
+}
