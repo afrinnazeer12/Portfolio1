@@ -359,7 +359,7 @@ const inputs = document.querySelectorAll(".contact__form-input");
 inputs.forEach(input => {
   input.addEventListener("focus", () => {
     input.style.transition = "all 0.3s ease";
-    input.style.border = "2px solid #00aaff";
+    input.style.border = "2px solid #FFFFFF";
     input.style.boxShadow = "0 0 10px rgba(0, 170, 255, 0.5)";
   });
   input.addEventListener("blur", () => {
@@ -374,7 +374,7 @@ const button = document.querySelector(".contact__btn");
 button.addEventListener("mouseenter", () => {
   button.style.transition = "all 0.3s ease";
   button.style.transform = "scale(1.05)";
-  button.style.backgroundColor = "#0088cc";
+  button.style.backgroundColor = "#000000";
   button.style.cursor = "pointer";
 });
 
@@ -401,7 +401,7 @@ icons.forEach(icon => {
 // ===== Fade-in on Scroll with different speeds =====
 const formContainer = document.querySelector(".contact__form-container");
 const footer = document.querySelector(".main-footer");
-const footerText = footer.querySelector("h2"); // Developer by text
+const footerText = footer.querySelector("h2"); 
 
 // Initialize fade state
 formContainer.style.opacity = 0;
