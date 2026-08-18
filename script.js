@@ -31,10 +31,41 @@ typeLoop();
 
 
 
-window.addEventListener("load", function () {
+function initializeNavigation() {
   document.querySelector(".header__links").classList.add("show-nav");
-});
 
+  const menuButton = document.querySelector(".header__main-ham-menu");
+  const mobileMenu = document.querySelector(".header__sm-menu");
+  const closeButton = document.querySelector(".header__sm-menu-close");
+
+  if (menuButton && mobileMenu) {
+    function closeMobileMenu() {
+      mobileMenu.classList.remove("header__sm-menu--active");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open navigation");
+    }
+
+    menuButton.addEventListener("click", function () {
+      const isOpen = mobileMenu.classList.toggle("header__sm-menu--active");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+    });
+
+    if (closeButton) {
+      closeButton.addEventListener("click", closeMobileMenu);
+    }
+
+    mobileMenu.querySelectorAll(".header__sm-menu-link a").forEach(link => {
+      link.addEventListener("click", closeMobileMenu);
+    });
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeNavigation);
+} else {
+  initializeNavigation();
+}
 
 //Animate the linkedin like lins
 window.addEventListener("load", function () {
@@ -355,6 +386,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ===== Animate Input Focus =====
 const inputs = document.querySelectorAll(".contact__form-input");
+const contactForm = document.querySelector(".contact__form");
+const contactStatus = document.querySelector(".contact__form-status");
+const contactResponse = document.querySelector(".contact__form-response");
+const emailInput = document.querySelector("#email");
+const emailError = document.querySelector("#emailError");
+
+if (emailInput && emailError) {
+  function validateEmail() {
+    emailError.textContent = emailInput.validity.typeMismatch ? "Enter a valid email ID." : "";
+  }
+
+  emailInput.addEventListener("invalid", validateEmail);
+  emailInput.addEventListener("blur", validateEmail);
+  emailInput.addEventListener("input", () => {
+    if (emailInput.validity.valid) {
+      emailError.textContent = "";
+    }
+  });
+}
+
+if (contactForm && contactStatus && contactResponse) {
+  let isSubmitting = false;
+  let statusTimer;
+
+  function hideContactStatus() {
+    contactStatus.textContent = "";
+    contactStatus.classList.remove("contact__form-status--visible");
+  }
+
+  contactForm.addEventListener("submit", () => {
+    isSubmitting = true;
+    contactStatus.classList.add("contact__form-status--visible");
+    contactStatus.textContent = "Sending...";
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(hideContactStatus, 8000);
+  });
+
+  contactResponse.addEventListener("load", () => {
+    if (!isSubmitting) {
+      return;
+    }
+
+    isSubmitting = false;
+    contactForm.reset();
+    contactStatus.classList.add("contact__form-status--visible");
+    contactStatus.textContent = "Thank you for contacting me. I will connect soon.";
+  });
+}
 
 inputs.forEach(input => {
   input.addEventListener("focus", () => {
@@ -401,7 +480,7 @@ icons.forEach(icon => {
 // ===== Fade-in on Scroll with different speeds =====
 const formContainer = document.querySelector(".contact__form-container");
 const footer = document.querySelector(".main-footer");
-const footerText = footer.querySelector("h2"); 
+const footerText = footer.querySelector("h2");
 
 // Initialize fade state
 formContainer.style.opacity = 0;
@@ -460,3 +539,4 @@ function fadeInOnScroll() {
 
 window.addEventListener("scroll", fadeInOnScroll);
 fadeInOnScroll(); // trigger once on load
+
