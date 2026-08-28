@@ -29,6 +29,88 @@ function typeLoop() {
 
 typeLoop();
 
+const SKILL_ICON_MAP = {
+  "JAVA": "logos:java",
+  "SPRING": "logos:spring-icon",
+  "SPRING BOOT": "logos:spring-icon",
+  "KARATE": "mdi:test-tube",
+  "KARATE FRAMEWORK (API TESTING)": "mdi:test-tube",
+  "AWS": "logos:aws",
+  "MYSQL": "logos:mysql",
+  "GIT": "logos:git-icon",
+  "GITHUB": "logos:github-icon",
+  "POSTMAN": "logos:postman-icon",
+  "JIRA": "logos:jira",
+  "VS CODE": "logos:visual-studio-code",
+  "INTELLIJ": "logos:intellij-idea",
+  "ECLIPSE": "logos:eclipse-icon",
+  "KIBANA": "logos:kibana",
+  "GRAFANA": "logos:grafana",
+  "CI/CD": "mdi:source-branch-sync",
+  "HTML": "logos:html-5",
+  "CSS": "logos:css-3",
+  "JAVASCRIPT": "logos:javascript",
+  "REACT": "logos:react",
+  "PYTHON": "logos:python",
+  "REST APIS": "mdi:api",
+  "MICROSERVICES": "mdi:cube-outline",
+  "AGILE": "mdi:run-fast"
+};
+
+function applySkillSymbols() {
+  document.querySelectorAll(".skills__skill").forEach((skill) => {
+    const label = (skill.dataset.skillName || skill.textContent).trim();
+    const iconName = SKILL_ICON_MAP[label.toUpperCase()];
+
+    if (!iconName) {
+      return;
+    }
+
+    if (skill.dataset.symbolApplied !== "true") {
+      skill.dataset.symbolApplied = "true";
+      skill.classList.add("skills__skill--icon");
+      skill.setAttribute("title", label);
+      skill.setAttribute("aria-label", label);
+      skill.dataset.skillName = label;
+      skill.innerHTML = `<iconify-icon icon="${iconName}" aria-hidden="true"></iconify-icon>`;
+    }
+
+    if (skill.dataset.nameInteractionBound !== "true") {
+      skill.dataset.nameInteractionBound = "true";
+      skill.tabIndex = 0;
+      skill.setAttribute("role", "button");
+
+      const showSkillName = () => {
+        document.querySelectorAll(".skills__skill--show-name").forEach((item) => {
+          if (item !== skill) {
+            item.classList.remove("skills__skill--show-name");
+          }
+        });
+
+        skill.classList.add("skills__skill--show-name");
+        clearTimeout(skill._hideNameTimer);
+        skill._hideNameTimer = setTimeout(() => {
+          skill.classList.remove("skills__skill--show-name");
+        }, 1700);
+      };
+
+      skill.addEventListener("click", showSkillName);
+      skill.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          showSkillName();
+        }
+      });
+    }
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", applySkillSymbols);
+} else {
+  applySkillSymbols();
+}
+
 
 
 function initializeNavigation() {
@@ -55,6 +137,7 @@ function initializeNavigation() {
       closeButton.addEventListener("click", closeMobileMenu);
     }
 
+    // Close main menu for all nav links
     mobileMenu.querySelectorAll(".header__sm-menu-link a").forEach(link => {
       link.addEventListener("click", closeMobileMenu);
     });
@@ -188,7 +271,7 @@ window.addEventListener("load", function () {
 
     }, 20);
 
-  }, 1000); // 1 second delay
+  }, 1000);
 
 });
 
@@ -196,43 +279,12 @@ window.addEventListener("load", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
+  // Keep About heading static/visible (no scroll animation).
   const aboutHeading = document.getElementById("aboutHeading");
-
-  // Initial position (hidden left)
-  aboutHeading.style.transform = "translateX(-100px)";
-  aboutHeading.style.opacity = "0";
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-
-        let position = -100;
-        let opacity = 0;
-
-        const animate = setInterval(() => {
-
-          position += 5;
-          opacity += 0.05;
-
-          aboutHeading.style.transform = `translateX(${position}px)`;
-          aboutHeading.style.opacity = opacity;
-
-          if (position >= 0) {
-            aboutHeading.style.transform = "translateX(0px)";
-            aboutHeading.style.opacity = "1";
-            clearInterval(animate);
-          }
-
-        }, 20);
-
-        observer.unobserve(aboutHeading);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  observer.observe(aboutHeading);
-
+  if (aboutHeading) {
+    aboutHeading.style.transform = "none";
+    aboutHeading.style.opacity = "1";
+  }
 });
 
 
@@ -240,32 +292,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
+  // Keep About + Skills block static/visible (no hide/show on scroll).
   const aboutSection = document.getElementById("aboutSection");
+  if (aboutSection) {
+    aboutSection.style.transform = "none";
+    aboutSection.style.opacity = "1";
+    aboutSection.style.transition = "none";
+  }
+});
 
-  // Initial hidden state
-  aboutSection.style.transform = "translateX(-150px)";
-  aboutSection.style.opacity = "0";
-  aboutSection.style.transition = "all 1.2s ease-in-out";
+document.addEventListener("DOMContentLoaded", function () {
+  const aboutContactBtn = document.getElementById("aboutContactBtn");
+  const contactSection = document.getElementById("contact");
+  const contactPopup = document.getElementById("contactPopup");
+  const contactPopupGo = document.getElementById("contactPopupGo");
+  const contactPopupCancel = document.getElementById("contactPopupCancel");
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  if (!aboutContactBtn || !contactSection || !contactPopup || !contactPopupGo || !contactPopupCancel) {
+    return;
+  }
 
-      if (entry.isIntersecting) {
-        // When 30% visible → slide in
-        aboutSection.style.transform = "translateX(0px)";
-        aboutSection.style.opacity = "1";
-      } else {
-        // When less than 30% visible → slide out
-        aboutSection.style.transform = "translateX(-150px)";
-        aboutSection.style.opacity = "0";
-      }
+  function closeContactPopup() {
+    contactPopup.classList.remove("contact-popup--open");
+    contactPopup.setAttribute("aria-hidden", "true");
+  }
 
-    });
-  }, { threshold: 0.3 }); // 👈 30% visibility required
+  function openContactPopup() {
+    contactPopup.classList.add("contact-popup--open");
+    contactPopup.setAttribute("aria-hidden", "false");
+  }
 
-  observer.observe(aboutSection);
+  aboutContactBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    openContactPopup();
+  });
 
+  contactPopupGo.addEventListener("click", function () {
+    closeContactPopup();
+    contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    contactSection.classList.remove("contact--focus");
+    setTimeout(() => {
+      contactSection.classList.add("contact--focus");
+    }, 250);
+  });
+
+  contactPopupCancel.addEventListener("click", closeContactPopup);
+
+  contactPopup.addEventListener("click", function (event) {
+    if (event.target === contactPopup) {
+      closeContactPopup();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeContactPopup();
+    }
+  });
 });
 
 
@@ -539,4 +622,3 @@ function fadeInOnScroll() {
 
 window.addEventListener("scroll", fadeInOnScroll);
 fadeInOnScroll(); // trigger once on load
-

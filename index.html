@@ -9,7 +9,8 @@
     <meta name="description" content="Portfolio Template for Developer" />
 
     <link rel="stylesheet" href="style.css" />
-   
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js" defer></script>
+
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,6 +48,12 @@
               </a>
             </li>
             <li class="header__link-wrapper">
+              <a href="./index.html#skills" class="header__link"> Skills </a>
+            </li>
+            <li class="header__link-wrapper">
+              <a href="./index.html#certifications" class="header__link"> Certifications </a>
+            </li>
+            <li class="header__link-wrapper">
               <a href="./index.html#contact" class="header__link"> Contact </a>
             </li>
           </ul>
@@ -62,23 +69,31 @@
       <div class="header__sm-menu">
         <div class="header__sm-menu-content">
           <button class="header__sm-menu-close" type="button" aria-label="Close navigation">&times;</button>
-          <ul class="header__sm-menu-links">
-            <li class="header__sm-menu-link">
-              <a href="./index.html"> Home </a>
-            </li>
+           <ul class="header__sm-menu-links">
+             <li class="header__sm-menu-link">
+               <a href="./index.html"> Home </a>
+             </li>
 
-            <li class="header__sm-menu-link">
-              <a href="./index.html#about"> About </a>
-            </li>
+             <li class="header__sm-menu-link">
+               <a href="./index.html#about"> About </a>
+             </li>
 
-            <li class="header__sm-menu-link">
-              <a href="./index.html#projects"> Projects </a>
-            </li>
+              <li class="header__sm-menu-link">
+                <a href="./index.html#projects"> Projects </a>
+              </li>
 
-            <li class="header__sm-menu-link">
-              <a href="./index.html#contact"> Contact </a>
-            </li>
-          </ul>
+             <li class="header__sm-menu-link">
+               <a href="./index.html#skills"> Skills </a>
+             </li>
+
+             <li class="header__sm-menu-link">
+               <a href="./index.html#certifications"> Certifications </a>
+             </li>
+
+             <li class="header__sm-menu-link">
+               <a href="./index.html#contact"> Contact </a>
+             </li>
+           </ul>
         </div>
       </div>
     </header>
@@ -153,7 +168,7 @@ Professional Software Engineer focused on building reliable, scalable, and user-
         </h2>
         <div class="about__content" id="aboutSection">
           <div class="about__content-main" >
-            <h3 class="about__content-title" id="aboutHeading" >Get to know me!</h3>
+            <h3 class="about__content-title about__title-typing" id="aboutHeading" >Get to know me!</h3>
             <div class="about__content-details">
               <p class="about__content-details-para">
                 I am <strong>Afrin A</strong>, a dedicated
@@ -167,23 +182,74 @@ Professional Software Engineer focused on building reliable, scalable, and user-
                 I am committed to solving problems effectively, maintaining high standards of quality, and continuously growing as a technology professional.
               </p>
             </div>
-            <a href="./#contact" class="btn btn--med btn--theme dynamicBgClr"
+            <a href="#contact" id="aboutContactBtn" class="btn btn--med btn--theme dynamicBgClr"
               >Contact</a
             >
-          </div>
-          <div class="about__content-skills">
-            <h3 class="about__content-title">My Skills</h3>
-            <div class="skills">
-                <div class="skills__skill">Java</div>
-                <div class="skills__skill">Hibernate JPA</div>
-                <div class="skills__skill">Spring Boot</div>
-              <div class="skills__skill">AWS</div>
-              <div class="skills__skill">Microservices</div>
-              <div class="skills__skill">REST API</div>
-              <div class="skills__skill">Kibana</div>
-             
+            <div class="contact-popup" id="contactPopup" aria-hidden="true" role="dialog" aria-labelledby="contactPopupTitle" aria-modal="true">
+              <div class="contact-popup__card">
+                <h4 id="contactPopupTitle" class="contact-popup__title">Go to Contact section?</h4>
+                <p class="contact-popup__text">You can directly ping me through the contact form.</p>
+                <div class="contact-popup__actions">
+                  <button type="button" id="contactPopupGo" class="btn btn--med btn--theme dynamicBgClr">Go to Contact</button>
+                  <button type="button" id="contactPopupCancel" class="contact-popup__cancel">Cancel</button>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="about__content-skills" id="skills">
+            <h3 class="about__content-title">My Skills</h3>
+            <h4 class="skills__category-title">Programming</h4>
+            <div class="skills">
+              <div class="skills__skill">Java</div>
+            </div>
+
+            <h4 class="skills__category-title">Frameworks</h4>
+            <div class="skills">
+              <div class="skills__skill">Spring</div>
+              <div class="skills__skill">Karate</div>
+            </div>
+
+            <h4 class="skills__category-title">Cloud &amp; Deployment</h4>
+            <div class="skills">
+              <div class="skills__skill">AWS</div>
+              <div class="skills__skill">CI/CD</div>
+            </div>
+
+            <h4 class="skills__category-title">Databases</h4>
+            <div class="skills">
+              <div class="skills__skill">MySQL</div>
+            </div>
+
+            <h4 class="skills__category-title">Tools</h4>
+            <div class="skills skills--tools">
+              <div class="skills__skill">Git</div>
+              <div class="skills__skill">GitHub</div>
+              <div class="skills__skill">Postman</div>
+              <div class="skills__skill">Jira</div>
+              <div class="skills__skill">VS Code</div>
+              <div class="skills__skill">IntelliJ</div>
+              <div class="skills__skill">Eclipse</div>
+            </div>
+
+            <h4 class="skills__category-title">Monitoring &amp; Logging</h4>
+            <div class="skills">
+              <div class="skills__skill">Kibana</div>
+              <div class="skills__skill">Grafana</div>
+            </div>
+
+          </div>
+        </div>
+        <div class="about__certifications certifications" id="certifications">
+          <h4 class="skills__category-title">Certifications</h4>
+          <p class="certifications__title">Achievements and Certifications 🏆</p>
+          <p class="certifications__item"><strong><a href="Afrin A.pdf" target="_blank" class="certifications__link">Java Full Stack Web Development Certification</a></strong></p>
+          <p class="certifications__desc">Completed comprehensive training in Java, Spring Boot, HTML, CSS, JavaScript, React.js, and MySQL.</p>
+          <p class="certifications__desc">Developed hands-on experience in building full-stack web applications and designing RESTful APIs.</p>
+          <p class="certifications__desc">Gained practical knowledge of frontend and backend integration, application architecture, and best coding practices.</p>
+          <p class="certifications__item"><strong><a href="Claude Ai.pdf" target="_blank" class="certifications__link">Claude 101 AI Certificate</a></strong></p>
+          <p class="certifications__desc">Completed basic training in using AI tools effectively and responsibly.</p>
+          <p class="certifications__desc">Learned to use Claude for code understanding, documentation, and day-to-day development support.</p>
+          <p class="certifications__desc">Used AI tools to improve problem solving, communication, and development speed.</p>
         </div>
       </div>
     </section>
@@ -350,7 +416,7 @@ Professional Software Engineer focused on building reliable, scalable, and user-
               <textarea
                 required
                 cols="30"
-                rows="10"
+                rows="7"
                 class="contact__form-input"
                 placeholder="Enter Your Message"
                 name="message"
@@ -402,8 +468,8 @@ Professional Software Engineer focused on building reliable, scalable, and user-
           </div>
          
           <div class="main-footer__row main-footer__row-2">
-            <h2 class="heading heading-sm text-lt">Designed and Developed By <span style=color:#FF8000> AFRIN A</span></h2>
-            <h2 >Software developer: crafting efficient solutions, building seamless experiences, and driving innovation through technology</h2>
+            <h2 class="heading heading-sm text-lt">Crafted and Developed by <span style=color:#FF8000> AFRIN A</span></h2>
+            <h2>Software Engineer building scalable, reliable, and user-focused solutions.</h2>
             <h4></h4>
    
           </div>
@@ -425,9 +491,6 @@ Professional Software Engineer focused on building reliable, scalable, and user-
 
    
 <script src="script.js"></script>
-
-
    
   </body>
 </html>
-

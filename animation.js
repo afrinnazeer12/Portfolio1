@@ -1,5 +1,83 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+  const SKILL_ICON_MAP = {
+    "JAVA": "logos:java",
+    "SPRING": "logos:spring-icon",
+    "SPRING BOOT": "logos:spring-icon",
+    "KARATE": "mdi:test-tube",
+    "KARATE FRAMEWORK (API TESTING)": "mdi:test-tube",
+    "AWS": "logos:aws",
+    "MYSQL": "logos:mysql",
+    "GIT": "logos:git-icon",
+    "GITHUB": "logos:github-icon",
+    "POSTMAN": "logos:postman-icon",
+    "JIRA": "logos:jira",
+    "VS CODE": "logos:visual-studio-code",
+    "INTELLIJ": "logos:intellij-idea",
+    "ECLIPSE": "logos:eclipse-icon",
+    "KIBANA": "logos:kibana",
+    "GRAFANA": "logos:grafana",
+    "CI/CD": "mdi:source-branch-sync",
+    "HTML": "logos:html-5",
+    "CSS": "logos:css-3",
+    "JAVASCRIPT": "logos:javascript",
+    "REACT": "logos:react",
+    "PYTHON": "logos:python",
+    "REST APIS": "mdi:api",
+    "MICROSERVICES": "mdi:cube-outline",
+    "AGILE": "mdi:run-fast"
+  };
+
+  function applySkillSymbols() {
+    document.querySelectorAll(".skills__skill").forEach((skill) => {
+      const label = (skill.dataset.skillName || skill.textContent).trim();
+      const iconName = SKILL_ICON_MAP[label.toUpperCase()];
+
+      if (!iconName) {
+        return;
+      }
+
+      if (skill.dataset.symbolApplied !== "true") {
+        skill.dataset.symbolApplied = "true";
+        skill.classList.add("skills__skill--icon");
+        skill.setAttribute("title", label);
+        skill.setAttribute("aria-label", label);
+        skill.dataset.skillName = label;
+        skill.innerHTML = `<iconify-icon icon="${iconName}" aria-hidden="true"></iconify-icon>`;
+      }
+
+      if (skill.dataset.nameInteractionBound !== "true") {
+        skill.dataset.nameInteractionBound = "true";
+        skill.tabIndex = 0;
+        skill.setAttribute("role", "button");
+
+        const showSkillName = () => {
+          document.querySelectorAll(".skills__skill--show-name").forEach((item) => {
+            if (item !== skill) {
+              item.classList.remove("skills__skill--show-name");
+            }
+          });
+
+          skill.classList.add("skills__skill--show-name");
+          clearTimeout(skill._hideNameTimer);
+          skill._hideNameTimer = setTimeout(() => {
+            skill.classList.remove("skills__skill--show-name");
+          }, 1700);
+        };
+
+        skill.addEventListener("click", showSkillName);
+        skill.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            showSkillName();
+          }
+        });
+      }
+    });
+  }
+
+  applySkillSymbols();
+
   const roleElement = document.getElementById("animatedRole");
 
   if (roleElement) {
@@ -60,6 +138,42 @@ document.addEventListener("DOMContentLoaded", function () {
   const navLinks = document.querySelector(".header__links");
   if (navLinks) {
     navLinks.classList.add("show-nav");
+  }
+
+  const projectsToggle = document.querySelector(".header__link--projects");
+  const projectsMenu = document.querySelector(".header__projects-menu");
+
+  if (projectsToggle && projectsMenu) {
+    projectsToggle.addEventListener("click", (event) => {
+      event.preventDefault();
+      const isOpen = projectsMenu.classList.toggle("header__projects-menu--open");
+      projectsToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!projectsMenu.contains(event.target) && !projectsToggle.contains(event.target)) {
+        projectsMenu.classList.remove("header__projects-menu--open");
+        projectsToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  const smProjectsToggle = document.querySelector(".header__sm-projects-toggle");
+  const smProjectsMenu = document.querySelector(".header__sm-projects-menu");
+
+  if (smProjectsToggle && smProjectsMenu) {
+    smProjectsToggle.addEventListener("click", (event) => {
+      event.preventDefault();
+      const isOpen = smProjectsMenu.classList.toggle("header__sm-projects-menu--open");
+      smProjectsToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    smProjectsMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        smProjectsMenu.classList.remove("header__sm-projects-menu--open");
+        smProjectsToggle.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 
   const socials = document.querySelectorAll(".home-hero__social");
@@ -281,7 +395,8 @@ function setupProjectNavigation() {
   });
 
   closeButton?.addEventListener("click", closeMenu);
-  mobileMenu.querySelectorAll(".header__sm-menu-link a").forEach(link => {
+  // Close menu for all links EXCEPT the Projects toggle
+  mobileMenu.querySelectorAll(".header__sm-menu-link a:not(.header__sm-projects-toggle)").forEach(link => {
     link.addEventListener("click", closeMenu);
   });
 }
@@ -291,4 +406,5 @@ if (document.readyState === "loading") {
 } else {
   setupProjectNavigation();
 }
+
 
