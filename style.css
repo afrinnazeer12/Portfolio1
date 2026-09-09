@@ -2362,6 +2362,7 @@ body:has(.project-cs-hero) .header {
 .header__links.show-nav .header__link-wrapper:nth-child(4) { animation-delay: 0.26s; }
 .header__links.show-nav .header__link-wrapper:nth-child(5) { animation-delay: 0.33s; }
 .header__links.show-nav .header__link-wrapper:nth-child(6) { animation-delay: 0.40s; }
+.header__links.show-nav .header__link-wrapper:nth-child(7) { animation-delay: 0.47s; }
 
 @keyframes navItemIn {
   from {
